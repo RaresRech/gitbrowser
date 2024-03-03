@@ -20,7 +20,7 @@ git clone https://github.com/RaresRech/gitbrowser
 Python3
 
 The script will automatically install : 
-requests , random-word , webbrowser
+requests , random-word , webbrowser , tqdm
 
 ## Commands
 
