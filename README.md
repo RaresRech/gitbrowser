@@ -30,6 +30,10 @@ Search repos
 ```bash
 search [keywords]
 ```
+Discover a number of random repos (maximum of 10)
+```bash
+discover [count]
+```
 Select repo
 ```bash
 select [key]
