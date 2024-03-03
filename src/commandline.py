@@ -11,7 +11,8 @@ class Listener:
             'search': self.search,
             'select': self.select,
             'repo': self.repo,
-            'options': self.options
+            'options': self.options,
+            'exit': self.ext
         }
 
     def map_input(self, input_text):
@@ -83,4 +84,5 @@ class Listener:
                 data["outputfolder"] = parameter
             with open(file_path, 'w') as file:
                 json.dump(data, file, indent=2)
-
+    def ext(self,optionals):
+        exit()
