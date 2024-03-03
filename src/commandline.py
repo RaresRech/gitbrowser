@@ -64,9 +64,12 @@ class Listener:
                     else:
                         print("Specify the folder you want to clone in")
                 elif (optionals.startswith("clone")):
-                    with open("../settings.json", 'r') as file:
+                    with open("settings.json", 'r') as file:
                         data = json.load(file)
-                        subprocess.run(f"git clone {self.fetcher.currentrepolist.currentrepository.url} {data["outputfolder"]}")
+                        if(data["outputfolder"] is not None and data["outputfolder"] != ""):
+                            subprocess.run(f"git clone {self.fetcher.currentrepolist.currentrepository.url} {data["outputfolder"]}")
+                        else:
+                            print("You must either specify the clone path or set a clone folder default. repo clone PATH / options clonefolder PATH")
                 else:
                     print("Invalid option")
             else:
@@ -79,7 +82,7 @@ class Listener:
             self.fetcher.perpage = str(int(parameter)+1)
         if optionals.startswith("clonefolder "):
             parameter = optionals[len("clonefolder "):]
-            with open("../settings.json", 'r') as file:
+            with open("settings.json", 'r') as file:
                 data = json.load(file)
                 data["outputfolder"] = parameter
             with open(file_path, 'w') as file:
