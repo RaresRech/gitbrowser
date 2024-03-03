@@ -1,5 +1,7 @@
 # gitbrowser
 
+https://github.com/RaresRech/gitbrowser/assets/116717436/3603cdc4-3326-4515-b671-db1fcdd060fe
+
 A simple brower for GitHub repositories. Terminal implementation.
 -Search based on keywords
 -Find free software and tools
