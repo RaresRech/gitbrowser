@@ -1,6 +1,11 @@
 # gitbrowser
 
 A simple brower for GitHub repositories. Terminal implementation.
+-Search based on keywords
+-Find free software and tools
+-Explore as in depth as you'd like 
+-Clone built in
+-Local settings
 
 ## Installation
 
