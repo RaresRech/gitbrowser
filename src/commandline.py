@@ -79,13 +79,21 @@ class Listener:
     def options(self,optionals):
         if optionals.startswith("perpage "):
             parameter = optionals[len("perpage "):]
-            self.fetcher.perpage = str(int(parameter)+1)
-        if optionals.startswith("clonefolder "):
+            with open("settings.json", 'r') as file:
+                data = json.load(file)
+                data["perpage"] = parameter
+            with open("settings.json", 'w') as file:
+                json.dump(data, file, indent=2)
+            print(f"Changed the default search count to {parameter}")
+        elif optionals.startswith("clonefolder "):
             parameter = optionals[len("clonefolder "):]
             with open("settings.json", 'r') as file:
                 data = json.load(file)
                 data["outputfolder"] = parameter
-            with open(file_path, 'w') as file:
+            with open("settings.json", 'w') as file:
                 json.dump(data, file, indent=2)
+            print(f"Changed default output folder to {parameter}")
+        else:
+            print("Invalid option")
     def ext(self,optionals):
         exit()

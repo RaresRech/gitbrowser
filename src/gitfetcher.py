@@ -1,6 +1,7 @@
 import random
 import requests
 import webbrowser
+import json
 
 class RepositoryList:
     def __init__(self, repolistdata):
@@ -53,7 +54,9 @@ class Fetcher:
         self.perpage = str(30)
     def get_repo_list(self,query):
         url = self.url.replace(self.queryplaceholder,query)
-        url = url.replace(self.perpageplaceholder,self.perpage)
+        with open("settings.json", 'r') as file:
+                data = json.load(file)
+                url = url.replace(self.perpageplaceholder,str(data["perpage"]))
         response = requests.get(url)
         data = response.json()
         if "items" in data:
