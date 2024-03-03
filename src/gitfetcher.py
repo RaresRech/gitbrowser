@@ -1,6 +1,7 @@
 import requests
 import webbrowser
 import json
+import random
 
 class RepositoryList:
     """
@@ -108,6 +109,12 @@ class Fetcher:
         - perpageplaceholder (str): Placeholder for the number of results per page in the URL.
 
         """
+
+        word_site = "https://www.mit.edu/~ecprice/wordlist.10000"
+
+        response = requests.get(word_site)
+        self.words = response.content.splitlines()
+
         self.currentrepolist = None
         self.url = url
         self.queryplaceholder = queryplaceholder
@@ -137,3 +144,34 @@ class Fetcher:
         if "items" in data:
             self.currentrepolist = RepositoryList(data["items"])
             return RepositoryList(data["items"])
+        
+    def get_random_repos(self,count):
+        """
+        Retrieves a list of random repositories.
+
+        Parameters:
+        - count (int): the number of repositories (0-10)
+
+        Returns:
+        - RepositoryList: List of repositories.
+
+        """
+        result_arr = []
+        looper=0
+
+        while looper < count:
+            url = self.url.replace(self.queryplaceholder, str(random.choice(self.words)))
+            url = url.replace(self.perpageplaceholder, str(1))
+
+            response = requests.get(url)
+            data = response.json()
+
+            if "items" in data:
+                try:
+                    result_arr.append(data["items"][0])
+                except:
+                    looper -= 1
+            looper += 1
+
+        self.currentrepolist = RepositoryList(result_arr)
+        return RepositoryList(result_arr)
