@@ -19,10 +19,8 @@ git clone https://github.com/RaresRech/gitbrowser
 
 Python3
 
-```bash
-pip install requests
-pip install webbrowser
-```
+The script will automatically install : 
+requests , random-word , webbrowser
 
 ## Commands
 

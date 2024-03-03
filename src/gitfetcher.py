@@ -1,7 +1,8 @@
 import requests
 import webbrowser
 import json
-import random
+from random_word import RandomWords
+from tqdm import tqdm
 
 class RepositoryList:
     """
@@ -110,11 +111,6 @@ class Fetcher:
 
         """
 
-        word_site = "https://www.mit.edu/~ecprice/wordlist.10000"
-
-        response = requests.get(word_site)
-        self.words = response.content.splitlines()
-
         self.currentrepolist = None
         self.url = url
         self.queryplaceholder = queryplaceholder
@@ -145,7 +141,7 @@ class Fetcher:
             self.currentrepolist = RepositoryList(data["items"])
             return RepositoryList(data["items"])
         
-    def get_random_repos(self,count):
+    def get_random_repos(self, count):
         """
         Retrieves a list of random repositories.
 
@@ -157,10 +153,13 @@ class Fetcher:
 
         """
         result_arr = []
-        looper=0
-
+        progress_bar = tqdm(total=count, desc="Searching")
+        looper = 0
+        word_index = 0
+        r = RandomWords()
         while looper < count:
-            url = self.url.replace(self.queryplaceholder, str(random.choice(self.words)))
+
+            url = self.url.replace(self.queryplaceholder, r.get_random_word())
             url = url.replace(self.perpageplaceholder, str(1))
 
             response = requests.get(url)
@@ -169,9 +168,12 @@ class Fetcher:
             if "items" in data:
                 try:
                     result_arr.append(data["items"][0])
+                    progress_bar.update(looper)
                 except:
                     looper -= 1
             looper += 1
+
+            word_index += 1
 
         self.currentrepolist = RepositoryList(result_arr)
         return RepositoryList(result_arr)
