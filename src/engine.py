@@ -2,11 +2,17 @@ import gitfetcher
 import commandline
 
 def main():
-
-    _fetcher = gitfetcher.Fetcher("https://api.github.com/search/repositories?q=QUERY&sort=stars&order=desc&per_page=PERPAGE","QUERY","PERPAGE")
+    # Define the URL template for fetching repositories
+    url_template = "https://api.github.com/search/repositories?q=QUERY&sort=stars&order=desc&per_page=PERPAGE"
+    
+    # Initialize the Fetcher with the URL template and placeholders
+    _fetcher = gitfetcher.Fetcher(url_template, "QUERY", "PERPAGE")
+    
+    # Initialize the Listener with the Fetcher
     _listener = commandline.Listener(_fetcher)
 
-    while(True):
+    # Command-line interface loop
+    while True:
         text_input = str(input(".. "))
         _listener.map_input(text_input)
 
