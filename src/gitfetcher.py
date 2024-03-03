@@ -53,7 +53,7 @@ class Fetcher:
         self.perpage = str(30)
     def get_repo_list(self,query):
         url = self.url.replace(self.queryplaceholder,query)
-        url = self.url.replace(self.perpageplaceholder,self.perpage)
+        url = url.replace(self.perpageplaceholder,self.perpage)
         response = requests.get(url)
         data = response.json()
         if "items" in data:
