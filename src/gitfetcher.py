@@ -25,7 +25,7 @@ class RepositoryList:
         if(self.isValid):
             print("-"*100)
             for repoKey in range(0,self.rescount):
-                print(f"{repoKey} : {self.repolist[repoKey]["name"]} {"-"*(20-len(self.repolist[repoKey]["name"]))} {str(str(self.repolist[repoKey]["description"]).encode("ascii","ignore"))[1:]}")
+                print(f"{repoKey} : {self.repolist[repoKey]["name"]} {"-"*(25-len(self.repolist[repoKey]["name"]))} {str(str(self.repolist[repoKey]["description"]).encode("ascii","ignore"))[1:]}")
             print("-"*100)
 class Repository:
     def __init__(self,repodata):

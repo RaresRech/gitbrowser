@@ -33,33 +33,45 @@ class Listener:
         self.fetcher.get_repo_list(query).display_repo_list()
 
     def select(self, key):
-        self.fetcher.currentrepolist.currentrepository = gitfetcher.Repository(
-            self.fetcher.currentrepolist.repolist[int(key)])
-        print(f"Selected repo {key} : {self.fetcher.currentrepolist.repolist[int(key)]['name']}")
+        if(self.fetcher.currentrepolist is not None):
+            if(key.isnumeric()):
+                self.fetcher.currentrepolist.currentrepository = gitfetcher.Repository(
+                    self.fetcher.currentrepolist.repolist[int(key)])
+                print(f"Selected repo {key} : {self.fetcher.currentrepolist.repolist[int(key)]['name']}")
+            else:
+                print("Please select the repo using it's numerical key. select [key]")
+        else:
+            print("You must search for repos first. search [keywords]")
 
     def repo(self, optionals):
-        if optionals == "expand":
-            self.fetcher.currentrepolist.currentrepository.display_repo()
-        elif optionals == "open":
-            self.fetcher.currentrepolist.currentrepository.open_in_browser()
-        elif optionals.startswith("details "):
-            parameter = optionals[len("details "):]
-            try:
-                print(self.fetcher.currentrepolist.currentrepository.data[str(parameter)])
-            except:
-                print("Invalid parameter")
-        elif optionals.startswith("clone "):
-            parameter = optionals[len("clone "):]
-            if(parameter is not None):
-                subprocess.run(f"git clone {self.fetcher.currentrepolist.currentrepository.url} {parameter}")
+        if(self.fetcher.currentrepolist is not None):
+            if(self.fetcher.currentrepolist.currentrepository is not None):
+                if optionals == "expand":
+                    self.fetcher.currentrepolist.currentrepository.display_repo()
+                elif optionals == "open":
+                    self.fetcher.currentrepolist.currentrepository.open_in_browser()
+                elif optionals.startswith("details "):
+                    parameter = optionals[len("details "):]
+                    try:
+                        print(self.fetcher.currentrepolist.currentrepository.data[str(parameter)])
+                    except:
+                        print("Invalid parameter")
+                elif optionals.startswith("clone "):
+                    parameter = optionals[len("clone "):]
+                    if(parameter is not None):
+                        subprocess.run(f"git clone {self.fetcher.currentrepolist.currentrepository.url} {parameter}")
+                    else:
+                        print("Specify the folder you want to clone in")
+                elif (optionals.startswith("clone")):
+                    with open("../settings.json", 'r') as file:
+                        data = json.load(file)
+                        subprocess.run(f"git clone {self.fetcher.currentrepolist.currentrepository.url} {data["outputfolder"]}")
+                else:
+                    print("Invalid option")
             else:
-                print("Specify the folder you want to clone in")
-        elif (optionals.startswith("clone")):
-             with open("../settings.json", 'r') as file:
-                data = json.load(file)
-                subprocess.run(f"git clone {self.fetcher.currentrepolist.currentrepository.url} {data["outputfolder"]}")
+                print("You must select a repo first. select [key]") 
         else:
-            print("Invalid option")
+            print("You must search repos first. search [keywords]")
     def options(self,optionals):
         if optionals.startswith("perpage "):
             parameter = optionals[len("perpage "):]
